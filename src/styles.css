@@ -138,11 +138,6 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    background-image: radial-gradient(
-challenge 0 0,
-      oklch(0.46 0.086 138 / 0.05) 1px,
-      transparent 0
-    );
   }
 
   h1,

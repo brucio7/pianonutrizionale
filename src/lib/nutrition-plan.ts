@@ -49,10 +49,12 @@ export function loadWeek(): WeekPlan {
     const parsed = JSON.parse(raw) as WeekPlan;
     const base = emptyWeek();
     for (const day of DAYS) {
+      const dayPlan = base[day];
+      if (!dayPlan) continue;
       for (const slot of MEAL_SLOTS) {
         const entry = parsed?.[day]?.[slot.id];
         if (entry) {
-          base[day][slot.id] = {
+          dayPlan[slot.id] = {
             main: typeof entry.main === "string" ? entry.main : "",
             alternatives: Array.isArray(entry.alternatives)
               ? entry.alternatives.filter((a) => typeof a === "string")
