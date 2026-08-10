@@ -10,21 +10,21 @@ export type DayPlan = Record<MealSlotId, MealEntry>;
 export type WeekPlan = Record<string, DayPlan>;
 
 export const DAYS = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
+  "Lunedì",
+  "Martedì",
+  "Mercoledì",
+  "Giovedì",
+  "Venerdì",
+  "Sabato",
+  "Domenica",
 ] as const;
 
 export const MEAL_SLOTS: { id: MealSlotId; label: string; time: string }[] = [
-  { id: "breakfast", label: "Breakfast", time: "07:30" },
-  { id: "morningSnack", label: "Morning snack", time: "10:30" },
-  { id: "lunch", label: "Lunch", time: "13:00" },
-  { id: "afternoonSnack", label: "Afternoon snack", time: "16:30" },
-  { id: "dinner", label: "Dinner", time: "20:00" },
+  { id: "breakfast", label: "Colazione", time: "07:30" },
+  { id: "morningSnack", label: "Spuntino mattina", time: "10:30" },
+  { id: "lunch", label: "Pranzo", time: "13:00" },
+  { id: "afternoonSnack", label: "Merenda", time: "16:30" },
+  { id: "dinner", label: "Cena", time: "20:00" },
 ];
 
 export const emptyDay = (): DayPlan =>
@@ -39,7 +39,7 @@ export const emptyWeek = (): WeekPlan =>
     return acc;
   }, {} as WeekPlan);
 
-const STORAGE_KEY = "nutrition-plan-v1";
+const STORAGE_KEY = "piano-alimentare-v1";
 
 export function loadWeek(): WeekPlan {
   if (typeof window === "undefined") return emptyWeek();
