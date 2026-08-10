@@ -12,7 +12,7 @@ const config: CapacitorConfig = {
   appName: "Piano Alimentare",
   webDir: "android-shell",
   server: {
-    url: "https://project--d8ec7286-0557-4a71-8908-0b289dc2b279.lovable.app",
+    url: "https://pianonutrizionale.lovable.app",
     cleartext: false,
   },
   android: {
