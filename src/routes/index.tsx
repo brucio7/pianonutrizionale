@@ -19,17 +19,17 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Weekly Nutrition Plan — Meals & Alternatives" },
+      { title: "Piano Alimentare Settimanale — Pasti e Alternative" },
       {
         name: "description",
         content:
-          "Plan breakfast, snacks, lunch and dinner for every day of the week, with a main meal and swap-in alternatives for each.",
+          "Organizza colazione, spuntini, pranzo e cena per ogni giorno della settimana, con un piatto principale e le sue alternative.",
       },
-      { property: "og:title", content: "Weekly Nutrition Plan — Meals & Alternatives" },
+      { property: "og:title", content: "Piano Alimentare Settimanale — Pasti e Alternative" },
       {
         property: "og:description",
         content:
-          "Plan breakfast, snacks, lunch and dinner for every day, each with a main meal and alternatives.",
+          "Organizza colazione, spuntini, pranzo e cena per ogni giorno, con piatto principale e alternative.",
       },
     ],
   }),
@@ -74,9 +74,9 @@ function Index() {
               <Leaf className="size-5" />
             </span>
             <div>
-              <h1 className="text-2xl font-semibold leading-tight">Nutrition Plan</h1>
+              <h1 className="text-2xl font-semibold leading-tight">Piano Alimentare</h1>
               <p className="text-sm text-muted-foreground">
-                Five meals a day, each with tasty backups.
+                Cinque pasti al giorno, ognuno con le sue alternative.
               </p>
             </div>
           </div>
@@ -86,14 +86,14 @@ function Index() {
               <span className="text-base text-muted-foreground">/{MEAL_SLOTS.length}</span>
             </p>
             <p className="text-xs uppercase tracking-wider text-muted-foreground">
-              {activeDay} planned
+              {activeDay}: pasti inseriti
             </p>
           </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-5xl px-5 pb-16 pt-6">
-        <nav className="flex flex-wrap gap-2" aria-label="Days of the week">
+        <nav className="flex flex-wrap gap-2" aria-label="Giorni della settimana">
           {DAYS.map((d) => {
             const filled = countPlanned(week[d] ?? emptyDay());
             const active = d === activeDay;
@@ -125,7 +125,7 @@ function Index() {
           <h2 className="font-display text-3xl">{activeDay}</h2>
           <Button variant="ghost" size="sm" onClick={clearDay} className="text-muted-foreground">
             <RotateCcw className="mr-2 size-4" />
-            Clear day
+            Svuota giorno
           </Button>
         </div>
 
@@ -142,7 +142,7 @@ function Index() {
         </div>
 
         <p className="mt-8 text-center text-xs text-muted-foreground">
-          Your plan is saved automatically on this device.
+          Il tuo piano viene salvato automaticamente su questo dispositivo.
         </p>
       </main>
     </div>

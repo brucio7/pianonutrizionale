@@ -31,21 +31,21 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
       </header>
 
       <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Main meal
+        Piatto principale
       </label>
       <div className="relative">
         <Utensils className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-primary" />
         <Input
           value={entry.main}
           onChange={(e) => onChange({ ...entry, main: e.target.value })}
-          placeholder={`What's for ${label.toLowerCase()}?`}
+          placeholder={`Cosa mangi a ${label.toLowerCase()}?`}
           className="h-11 bg-surface pl-9 text-base"
         />
       </div>
 
       <div className="mt-4">
         <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Alternatives
+          Alternative
         </p>
 
         {entry.alternatives.length > 0 && (
@@ -55,11 +55,11 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
                 key={`${alt}-${i}`}
                 className="group flex items-center gap-2 rounded-lg border border-dashed border-border bg-surface px-3 py-2 text-sm text-surface-foreground"
               >
-                <span className="text-accent">or</span>
+                <span className="text-accent">oppure</span>
                 <span className="flex-1">{alt}</span>
                 <button
                   type="button"
-                  aria-label={`Remove alternative ${alt}`}
+                  aria-label={`Rimuovi alternativa ${alt}`}
                   onClick={() =>
                     onChange({
                       ...entry,
@@ -85,12 +85,12 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
                 addAlternative();
               }
             }}
-            placeholder="Add an alternative…"
+            placeholder="Aggiungi un'alternativa…"
             className="h-10 bg-card text-sm"
           />
           <Button type="button" variant="secondary" size="icon" className="h-10 w-10 shrink-0" onClick={addAlternative}>
             <Plus className="size-4" />
-            <span className="sr-only">Add alternative</span>
+            <span className="sr-only">Aggiungi alternativa</span>
           </Button>
         </div>
       </div>
