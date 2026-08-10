@@ -29,7 +29,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Organizza colazione, spuntini, pranzo e cena per ogni giorno, con piatto principale e alternative.",
+          "Organizza colazione, spuntini, pranzo e cena per ogni giorno della settimana, con un piatto principale e le sue alternative.",
       },
     ],
   }),

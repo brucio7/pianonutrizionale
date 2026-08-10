@@ -77,8 +77,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Piano Alimentare" },
-      { name: "description", content: "Organizza i pasti e le alternative per ogni giorno della settimana." },
+      { title: "Piano Alimentare Settimanale — Pasti e Alternative" },
+      { name: "description", content: "Organizza colazione, spuntini, pranzo e cena per ogni giorno della settimana, con un piatto principale e le sue alternative." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#54662f" },
@@ -86,6 +86,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-title", content: "Piano Alimentare" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+      { property: "og:title", content: "Piano Alimentare Settimanale — Pasti e Alternative" },
+      { name: "twitter:title", content: "Piano Alimentare Settimanale — Pasti e Alternative" },
+      { property: "og:description", content: "Organizza colazione, spuntini, pranzo e cena per ogni giorno della settimana, con un piatto principale e le sue alternative." },
+      { name: "twitter:description", content: "Organizza colazione, spuntini, pranzo e cena per ogni giorno della settimana, con un piatto principale e le sue alternative." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/349ccc5358d2b53076df6c87686ddd44/id-preview-3c645d5e--d8ec7286-0557-4a71-8908-0b289dc2b279.lovable.app-1786375128238.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/349ccc5358d2b53076df6c87686ddd44/id-preview-3c645d5e--d8ec7286-0557-4a71-8908-0b289dc2b279.lovable.app-1786375128238.png" },
     ],
     links: [
       {
