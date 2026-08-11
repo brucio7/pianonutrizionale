@@ -59,13 +59,10 @@ export function loadWeek(): WeekPlan {
         const entry = parsed?.[day]?.[slot.id];
         if (entry) {
           // Backward compat: old format had main/quantity strings
-          const legacyMain = typeof (entry as { main?: unknown }).main === "string"
-            ? ((entry as { main: string }).main)
-            : "";
-          const legacyQty = typeof (entry as { quantity?: unknown }).quantity === "string"
-            ? ((entry as { quantity: string }).quantity)
-            : "";
-          const rawMains = (entry as { mains?: unknown }).mains;
+          const legacy = entry as unknown as { main?: string; quantity?: string; mains?: unknown };
+          const legacyMain = typeof legacy.main === "string" ? legacy.main : "";
+          const legacyQty = typeof legacy.quantity === "string" ? legacy.quantity : "";
+          const rawMains = legacy.mains;
           const mains: MainDish[] = Array.isArray(rawMains) && rawMains.length > 0
             ? (rawMains as MainDish[])
                 .filter((m) => m && typeof m === "object")
