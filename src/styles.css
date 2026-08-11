@@ -153,10 +153,22 @@
   background-size: 18px 18px;
 }
 
+.print-only {
+  display: none;
+}
+
 @media print {
   .no-print,
   .no-print * {
     display: none !important;
+  }
+
+  .screen-only {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
   }
 
   body {
@@ -165,11 +177,6 @@
 
   .paper-grain {
     background-image: none !important;
-  }
-
-  /* Print the whole week, not just the active day */
-  .print-day {
-    page-break-after: always;
   }
 
   /* Inputs render as plain text */
@@ -187,7 +194,6 @@
     color: transparent !important;
   }
 
-  /* Hide dashed add-alternative rows that are empty in print */
   section {
     box-shadow: none !important;
   }
