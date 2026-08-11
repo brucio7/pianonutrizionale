@@ -2,9 +2,11 @@ export type MealSlotId = "breakfast" | "morningSnack" | "lunch" | "afternoonSnac
 
 export type MainDish = { dish: string; quantity: string };
 
+export type Alternative = { dish: string; quantity: string };
+
 export type MealEntry = {
   mains: MainDish[];
-  alternatives: string[];
+  alternatives: Alternative[];
 };
 
 export type DayPlan = Record<MealSlotId, MealEntry>;
