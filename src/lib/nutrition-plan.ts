@@ -2,6 +2,7 @@ export type MealSlotId = "breakfast" | "morningSnack" | "lunch" | "afternoonSnac
 
 export type MealEntry = {
   main: string;
+  quantity: string;
   alternatives: string[];
 };
 
@@ -29,7 +30,7 @@ export const MEAL_SLOTS: { id: MealSlotId; label: string; time: string }[] = [
 
 export const emptyDay = (): DayPlan =>
   MEAL_SLOTS.reduce((acc, slot) => {
-    acc[slot.id] = { main: "", alternatives: [] };
+    acc[slot.id] = { main: "", quantity: "", alternatives: [] };
     return acc;
   }, {} as DayPlan);
 
@@ -56,6 +57,7 @@ export function loadWeek(): WeekPlan {
         if (entry) {
           dayPlan[slot.id] = {
             main: typeof entry.main === "string" ? entry.main : "",
+            quantity: typeof entry.quantity === "string" ? entry.quantity : "",
             alternatives: Array.isArray(entry.alternatives)
               ? entry.alternatives.filter((a) => typeof a === "string")
               : [],
