@@ -1,8 +1,9 @@
 export type MealSlotId = "breakfast" | "morningSnack" | "lunch" | "afternoonSnack" | "dinner";
 
+export type MainDish = { dish: string; quantity: string };
+
 export type MealEntry = {
-  main: string;
-  quantity: string;
+  mains: MainDish[];
   alternatives: string[];
 };
 
@@ -28,9 +29,11 @@ export const MEAL_SLOTS: { id: MealSlotId; label: string; time: string }[] = [
   { id: "dinner", label: "Cena", time: "20:00" },
 ];
 
+export const emptyMainDish = (): MainDish => ({ dish: "", quantity: "" });
+
 export const emptyDay = (): DayPlan =>
   MEAL_SLOTS.reduce((acc, slot) => {
-    acc[slot.id] = { main: "", quantity: "", alternatives: [] };
+    acc[slot.id] = { mains: [emptyMainDish()], alternatives: [] };
     return acc;
   }, {} as DayPlan);
 
@@ -55,9 +58,24 @@ export function loadWeek(): WeekPlan {
       for (const slot of MEAL_SLOTS) {
         const entry = parsed?.[day]?.[slot.id];
         if (entry) {
+          // Backward compat: old format had main/quantity strings
+          const legacyMain = typeof (entry as { main?: unknown }).main === "string"
+            ? ((entry as { main: string }).main)
+            : "";
+          const legacyQty = typeof (entry as { quantity?: unknown }).quantity === "string"
+            ? ((entry as { quantity: string }).quantity)
+            : "";
+          const rawMains = (entry as { mains?: unknown }).mains;
+          const mains: MainDish[] = Array.isArray(rawMains) && rawMains.length > 0
+            ? (rawMains as MainDish[])
+                .filter((m) => m && typeof m === "object")
+                .map((m) => ({
+                  dish: typeof m.dish === "string" ? m.dish : "",
+                  quantity: typeof m.quantity === "string" ? m.quantity : "",
+                }))
+            : [{ dish: legacyMain, quantity: legacyQty }];
           dayPlan[slot.id] = {
-            main: typeof entry.main === "string" ? entry.main : "",
-            quantity: typeof entry.quantity === "string" ? entry.quantity : "",
+            mains,
             alternatives: Array.isArray(entry.alternatives)
               ? entry.alternatives.filter((a) => typeof a === "string")
               : [],
@@ -77,5 +95,7 @@ export function saveWeek(week: WeekPlan) {
 }
 
 export function countPlanned(day: DayPlan) {
-  return MEAL_SLOTS.filter((s) => day[s.id].main.trim().length > 0).length;
+  return MEAL_SLOTS.filter(
+    (s) => day[s.id].mains.some((m) => m.dish.trim().length > 0),
+  ).length;
 }
