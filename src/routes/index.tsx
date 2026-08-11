@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Leaf, RotateCcw } from "lucide-react";
+import { Leaf, RotateCcw, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MealSlotCard } from "@/components/MealSlotCard";
 import {
