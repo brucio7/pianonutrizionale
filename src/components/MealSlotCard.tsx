@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Plus, X, Utensils } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import type { MealEntry } from "@/lib/nutrition-plan";
+import {
+  emptyMainDish,
+  type MainDish,
+  type MealEntry,
+} from "@/lib/nutrition-plan";
 
 type Props = {
   label: string;
@@ -21,6 +25,20 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
     setDraft("");
   };
 
+  const updateMain = (index: number, patch: Partial<MainDish>) => {
+    const mains = entry.mains.map((m, i) => (i === index ? { ...m, ...patch } : m));
+    onChange({ ...entry, mains });
+  };
+
+  const addMain = () => {
+    onChange({ ...entry, mains: [...entry.mains, emptyMainDish()] });
+  };
+
+  const removeMain = (index: number) => {
+    const mains = entry.mains.filter((_, i) => i !== index);
+    onChange({ ...entry, mains: mains.length > 0 ? mains : [emptyMainDish()] });
+  };
+
   return (
     <section className="rounded-2xl border border-border bg-card p-5 shadow-card">
       <header className="mb-4">
@@ -31,27 +49,66 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
         <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Piatto principale
         </label>
-        <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        <label className="mr-10 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           Quantità
         </label>
       </div>
-      <div className="flex gap-2">
-        <div className="relative flex-1">
-          <Utensils className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-primary" />
-          <Input
-            value={entry.main}
-            onChange={(e) => onChange({ ...entry, main: e.target.value })}
-            placeholder={`Cosa mangi a ${label.toLowerCase()}?`}
-            className="h-11 bg-surface pl-9 text-base"
-          />
-        </div>
-        <Input
-          value={entry.quantity}
-          onChange={(e) => onChange({ ...entry, quantity: e.target.value })}
-          placeholder="es. 200g"
-          className="h-11 w-28 bg-surface text-base"
-          inputMode="text"
-        />
+
+      <div className="space-y-2">
+        {entry.mains.map((mainDish, i) => (
+          <div key={i} className="flex gap-2">
+            <div className="relative flex-1">
+              <Utensils className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-primary" />
+              <Input
+                value={mainDish.dish}
+                onChange={(e) => updateMain(i, { dish: e.target.value })}
+                placeholder={i === 0 ? `Cosa mangi a ${label.toLowerCase()}?` : "Altro piatto…"}
+                className="h-11 bg-surface pl-9 text-base"
+              />
+            </div>
+            <Input
+              value={mainDish.quantity}
+              onChange={(e) => updateMain(i, { quantity: e.target.value })}
+              placeholder="es. 200g"
+              className="h-11 w-28 bg-surface text-base"
+              inputMode="text"
+            />
+            {entry.mains.length > 1 ? (
+              <button
+                type="button"
+                aria-label="Rimuovi piatto"
+                onClick={() => removeMain(i)}
+                className="flex size-11 shrink-0 items-center justify-center rounded-md border border-border bg-card text-muted-foreground transition-colors hover:bg-muted hover:text-destructive"
+              >
+                <X className="size-4" />
+              </button>
+            ) : (
+              <Button
+                type="button"
+                variant="secondary"
+                size="icon"
+                className="h-11 w-11 shrink-0"
+                onClick={addMain}
+              >
+                <Plus className="size-4" />
+                <span className="sr-only">Aggiungi piatto</span>
+              </Button>
+            )}
+          </div>
+        ))}
+
+        {entry.mains.length > 1 && (
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={addMain}
+            className="text-muted-foreground"
+          >
+            <Plus className="mr-1 size-4" />
+            Aggiungi piatto
+          </Button>
+        )}
       </div>
 
       <div className="mt-4">
