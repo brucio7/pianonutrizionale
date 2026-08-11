@@ -100,7 +100,7 @@ function Index() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-5 pb-16 pt-6">
+      <main className="mx-auto max-w-5xl px-5 pb-16 pt-6 screen-only">
         <nav className="flex flex-wrap gap-2" aria-label="Giorni della settimana">
           {DAYS.map((d) => {
             const filled = countPlanned(week[d] ?? emptyDay());
