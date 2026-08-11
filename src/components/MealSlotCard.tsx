@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   emptyMainDish,
+  emptyAlternative,
   type MainDish,
+  type Alternative,
   type MealEntry,
 } from "@/lib/nutrition-plan";
 
@@ -16,13 +18,32 @@ type Props = {
 };
 
 export function MealSlotCard({ label, time, entry, onChange }: Props) {
-  const [draft, setDraft] = useState("");
+  const [draftDish, setDraftDish] = useState("");
+  const [draftQty, setDraftQty] = useState("");
 
   const addAlternative = () => {
-    const value = draft.trim();
+    const value = draftDish.trim();
     if (!value) return;
-    onChange({ ...entry, alternatives: [...entry.alternatives, value] });
-    setDraft("");
+    onChange({
+      ...entry,
+      alternatives: [...entry.alternatives, { dish: value, quantity: draftQty.trim() }],
+    });
+    setDraftDish("");
+    setDraftQty("");
+  };
+
+  const updateAlternative = (index: number, patch: Partial<Alternative>) => {
+    const alternatives = entry.alternatives.map((a, i) =>
+      i === index ? { ...a, ...patch } : a,
+    );
+    onChange({ ...entry, alternatives });
+  };
+
+  const removeAlternative = (index: number) => {
+    onChange({
+      ...entry,
+      alternatives: entry.alternatives.filter((_, i) => i !== index),
+    });
   };
 
   const updateMain = (index: number, patch: Partial<MainDish>) => {
