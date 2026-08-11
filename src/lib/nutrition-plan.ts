@@ -33,6 +33,8 @@ export const MEAL_SLOTS: { id: MealSlotId; label: string; time: string }[] = [
 
 export const emptyMainDish = (): MainDish => ({ dish: "", quantity: "" });
 
+export const emptyAlternative = (): Alternative => ({ dish: "", quantity: "" });
+
 export const emptyDay = (): DayPlan =>
   MEAL_SLOTS.reduce((acc, slot) => {
     acc[slot.id] = { mains: [emptyMainDish()], alternatives: [] };
