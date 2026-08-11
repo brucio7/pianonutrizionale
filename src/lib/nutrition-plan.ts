@@ -2,9 +2,11 @@ export type MealSlotId = "breakfast" | "morningSnack" | "lunch" | "afternoonSnac
 
 export type MainDish = { dish: string; quantity: string };
 
+export type Alternative = { dish: string; quantity: string };
+
 export type MealEntry = {
   mains: MainDish[];
-  alternatives: string[];
+  alternatives: Alternative[];
 };
 
 export type DayPlan = Record<MealSlotId, MealEntry>;
@@ -30,6 +32,8 @@ export const MEAL_SLOTS: { id: MealSlotId; label: string; time: string }[] = [
 ];
 
 export const emptyMainDish = (): MainDish => ({ dish: "", quantity: "" });
+
+export const emptyAlternative = (): Alternative => ({ dish: "", quantity: "" });
 
 export const emptyDay = (): DayPlan =>
   MEAL_SLOTS.reduce((acc, slot) => {
@@ -71,12 +75,20 @@ export function loadWeek(): WeekPlan {
                   quantity: typeof m.quantity === "string" ? m.quantity : "",
                 }))
             : [{ dish: legacyMain, quantity: legacyQty }];
-          dayPlan[slot.id] = {
-            mains,
-            alternatives: Array.isArray(entry.alternatives)
-              ? entry.alternatives.filter((a) => typeof a === "string")
-              : [],
-          };
+          const rawAlts = Array.isArray(entry.alternatives) ? entry.alternatives : [];
+          const alternatives: Alternative[] = rawAlts
+            .map((a) => {
+              if (typeof a === "string") return { dish: a, quantity: "" };
+              if (a && typeof a === "object") {
+                return {
+                  dish: typeof a.dish === "string" ? a.dish : "",
+                  quantity: typeof a.quantity === "string" ? a.quantity : "",
+                };
+              }
+              return null;
+            })
+            .filter((a): a is Alternative => a !== null);
+          dayPlan[slot.id] = { mains, alternatives };
         }
       }
     }

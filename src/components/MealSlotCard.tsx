@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   emptyMainDish,
+  emptyAlternative,
   type MainDish,
+  type Alternative,
   type MealEntry,
 } from "@/lib/nutrition-plan";
 
@@ -16,13 +18,32 @@ type Props = {
 };
 
 export function MealSlotCard({ label, time, entry, onChange }: Props) {
-  const [draft, setDraft] = useState("");
+  const [draftDish, setDraftDish] = useState("");
+  const [draftQty, setDraftQty] = useState("");
 
   const addAlternative = () => {
-    const value = draft.trim();
+    const value = draftDish.trim();
     if (!value) return;
-    onChange({ ...entry, alternatives: [...entry.alternatives, value] });
-    setDraft("");
+    onChange({
+      ...entry,
+      alternatives: [...entry.alternatives, { dish: value, quantity: draftQty.trim() }],
+    });
+    setDraftDish("");
+    setDraftQty("");
+  };
+
+  const updateAlternative = (index: number, patch: Partial<Alternative>) => {
+    const alternatives = entry.alternatives.map((a, i) =>
+      i === index ? { ...a, ...patch } : a,
+    );
+    onChange({ ...entry, alternatives });
+  };
+
+  const removeAlternative = (index: number) => {
+    onChange({
+      ...entry,
+      alternatives: entry.alternatives.filter((_, i) => i !== index),
+    });
   };
 
   const updateMain = (index: number, patch: Partial<MainDish>) => {
@@ -117,23 +138,29 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
         </p>
 
         {entry.alternatives.length > 0 && (
-          <ul className="mb-2 space-y-1.5">
+          <ul className="mb-2 space-y-2">
             {entry.alternatives.map((alt, i) => (
               <li
-                key={`${alt}-${i}`}
+                key={`${alt.dish}-${i}`}
                 className="group flex items-center gap-2 rounded-lg border border-dashed border-border bg-surface px-3 py-2 text-sm text-surface-foreground"
               >
                 <span className="text-accent">oppure</span>
-                <span className="flex-1">{alt}</span>
+                <input
+                  value={alt.dish}
+                  onChange={(e) => updateAlternative(i, { dish: e.target.value })}
+                  placeholder="Alternativa…"
+                  className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/60"
+                />
+                <input
+                  value={alt.quantity}
+                  onChange={(e) => updateAlternative(i, { quantity: e.target.value })}
+                  placeholder="es. 200g"
+                  className="w-20 bg-transparent text-right text-sm outline-none placeholder:text-muted-foreground/60"
+                />
                 <button
                   type="button"
-                  aria-label={`Rimuovi alternativa ${alt}`}
-                  onClick={() =>
-                    onChange({
-                      ...entry,
-                      alternatives: entry.alternatives.filter((_, idx) => idx !== i),
-                    })
-                  }
+                  aria-label={`Rimuovi alternativa ${alt.dish || i + 1}`}
+                  onClick={() => removeAlternative(i)}
                   className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-destructive"
                 >
                   <X className="size-3.5" />
@@ -145,8 +172,8 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
 
         <div className="flex gap-2">
           <Input
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
+            value={draftDish}
+            onChange={(e) => setDraftDish(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
@@ -154,7 +181,19 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
               }
             }}
             placeholder="Aggiungi un'alternativa…"
-            className="h-10 bg-card text-sm"
+            className="h-10 flex-1 bg-card text-sm"
+          />
+          <Input
+            value={draftQty}
+            onChange={(e) => setDraftQty(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                addAlternative();
+              }
+            }}
+            placeholder="es. 200g"
+            className="h-10 w-28 bg-card text-sm"
           />
           <Button type="button" variant="secondary" size="icon" className="h-10 w-10 shrink-0" onClick={addAlternative}>
             <Plus className="size-4" />
