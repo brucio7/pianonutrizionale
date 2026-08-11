@@ -77,14 +77,25 @@ function Index() {
               <h1 className="text-2xl font-semibold leading-tight">Piano Alimentare</h1>
             </div>
           </div>
-          <div className="text-right">
-            <p className="font-display text-3xl leading-none text-primary">
-              {planned}
-              <span className="text-base text-muted-foreground">/{MEAL_SLOTS.length}</span>
-            </p>
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">
-              {activeDay}: pasti inseriti
-            </p>
+          <div className="flex items-center gap-4">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => window.print()}
+              className="no-print"
+            >
+              <Printer className="mr-2 size-4" />
+              Stampa PDF
+            </Button>
+            <div className="text-right">
+              <p className="font-display text-3xl leading-none text-primary">
+                {planned}
+                <span className="text-base text-muted-foreground">/{MEAL_SLOTS.length}</span>
+              </p>
+              <p className="text-xs uppercase tracking-wider text-muted-foreground">
+                {activeDay}: pasti inseriti
+              </p>
+            </div>
           </div>
         </div>
       </header>
