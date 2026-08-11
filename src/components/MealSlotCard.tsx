@@ -27,16 +27,30 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
         <h3 className="text-lg font-semibold text-card-foreground">{label}</h3>
       </header>
 
-      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Piatto principale
-      </label>
-      <div className="relative">
-        <Utensils className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-primary" />
+      <div className="mb-1.5 flex items-baseline justify-between gap-3">
+        <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Piatto principale
+        </label>
+        <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Quantità
+        </label>
+      </div>
+      <div className="flex gap-2">
+        <div className="relative flex-1">
+          <Utensils className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-primary" />
+          <Input
+            value={entry.main}
+            onChange={(e) => onChange({ ...entry, main: e.target.value })}
+            placeholder={`Cosa mangi a ${label.toLowerCase()}?`}
+            className="h-11 bg-surface pl-9 text-base"
+          />
+        </div>
         <Input
-          value={entry.main}
-          onChange={(e) => onChange({ ...entry, main: e.target.value })}
-          placeholder={`Cosa mangi a ${label.toLowerCase()}?`}
-          className="h-11 bg-surface pl-9 text-base"
+          value={entry.quantity}
+          onChange={(e) => onChange({ ...entry, quantity: e.target.value })}
+          placeholder="es. 200g"
+          className="h-11 w-28 bg-surface text-base"
+          inputMode="text"
         />
       </div>
 
