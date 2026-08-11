@@ -153,6 +153,56 @@ function Index() {
           Il tuo piano viene salvato automaticamente su questo dispositivo.
         </p>
       </main>
+
+      <div className="mx-auto max-w-5xl px-5 pt-6 print-only">
+        <h2 className="mb-6 font-display text-3xl">Piano Alimentare — Settimana</h2>
+        {DAYS.map((d) => {
+          const dayPlan = week[d] ?? emptyDay();
+          const filled = countPlanned(dayPlan);
+          if (filled === 0) return null;
+          return (
+            <div key={d} style={{ pageBreakAfter: "always" }} className="mb-8">
+              <h3 className="mb-4 border-b border-border pb-1 font-display text-2xl">{d}</h3>
+              <div className="grid gap-4 md:grid-cols-2">
+                {MEAL_SLOTS.map((slot) => {
+                  const entry = dayPlan[slot.id];
+                  const hasMain = entry.mains.some((m) => m.dish.trim());
+                  const hasAlt = entry.alternatives.length > 0;
+                  if (!hasMain && !hasAlt) return null;
+                  return (
+                    <section
+                      key={slot.id}
+                      className="rounded-2xl border border-border bg-card p-4"
+                    >
+                      <h4 className="mb-2 text-base font-semibold">{slot.label}</h4>
+                      {entry.mains
+                        .filter((m) => m.dish.trim())
+                        .map((m, i) => (
+                          <p key={i} className="text-sm">
+                            <span className="font-medium">{m.dish}</span>
+                            {m.quantity && (
+                              <span className="text-muted-foreground"> — {m.quantity}</span>
+                            )}
+                          </p>
+                        ))}
+                      {entry.alternatives.length > 0 && (
+                        <ul className="mt-1 space-y-0.5">
+                          {entry.alternatives.map((alt, i) => (
+                            <li key={i} className="text-sm text-muted-foreground">
+                              oppure {alt.dish}
+                              {alt.quantity && ` — ${alt.quantity}`}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </section>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
