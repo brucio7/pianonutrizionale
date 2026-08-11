@@ -75,9 +75,6 @@ function Index() {
             </span>
             <div>
               <h1 className="text-2xl font-semibold leading-tight">Piano Alimentare</h1>
-              <p className="text-sm text-muted-foreground">
-                Cinque pasti al giorno, ognuno con le sue alternative.
-              </p>
             </div>
           </div>
           <div className="text-right">
