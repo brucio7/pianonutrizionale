@@ -23,11 +23,8 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
 
   return (
     <section className="rounded-2xl border border-border bg-card p-5 shadow-card">
-      <header className="mb-4 flex items-baseline justify-between gap-3">
+      <header className="mb-4">
         <h3 className="text-lg font-semibold text-card-foreground">{label}</h3>
-        <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground">
-          {time}
-        </span>
       </header>
 
       <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
