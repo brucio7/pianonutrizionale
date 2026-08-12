@@ -189,7 +189,7 @@ function Index() {
                         <ul className="mt-1 space-y-0.5">
                           {entry.alternatives.map((alt, i) => (
                             <li key={i} className="text-sm text-muted-foreground">
-                              oppure {alt.dish}
+                              {alt.prefix || "invece di"} {alt.dish}
                               {alt.quantity && ` — ${alt.quantity}`}
                             </li>
                           ))}
