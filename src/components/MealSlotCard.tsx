@@ -144,7 +144,12 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
                 key={`${alt.dish}-${i}`}
                 className="group flex items-center gap-2 rounded-lg border border-dashed border-border bg-surface px-3 py-2 text-sm text-surface-foreground"
               >
-                <span className="text-accent">oppure</span>
+                <input
+                  value={alt.prefix || "invece di"}
+                  onChange={(e) => updateAlternative(i, { prefix: e.target.value })}
+                  placeholder="invece di"
+                  className="w-24 bg-transparent text-center text-sm text-accent outline-none placeholder:text-accent/60"
+                />
                 <input
                   value={alt.dish}
                   onChange={(e) => updateAlternative(i, { dish: e.target.value })}
