@@ -2,7 +2,7 @@ export type MealSlotId = "breakfast" | "morningSnack" | "lunch" | "afternoonSnac
 
 export type MainDish = { dish: string; quantity: string };
 
-export type Alternative = { dish: string; quantity: string };
+export type Alternative = { dish: string; quantity: string; prefix?: string };
 
 export type MealEntry = {
   mains: MainDish[];
@@ -33,7 +33,7 @@ export const MEAL_SLOTS: { id: MealSlotId; label: string; time: string }[] = [
 
 export const emptyMainDish = (): MainDish => ({ dish: "", quantity: "" });
 
-export const emptyAlternative = (): Alternative => ({ dish: "", quantity: "" });
+export const emptyAlternative = (): Alternative => ({ dish: "", quantity: "", prefix: "invece di" });
 
 export const emptyDay = (): DayPlan =>
   MEAL_SLOTS.reduce((acc, slot) => {
@@ -83,6 +83,7 @@ export function loadWeek(): WeekPlan {
                 return {
                   dish: typeof a.dish === "string" ? a.dish : "",
                   quantity: typeof a.quantity === "string" ? a.quantity : "",
+                  prefix: typeof a.prefix === "string" ? a.prefix : "invece di",
                 };
               }
               return null;
