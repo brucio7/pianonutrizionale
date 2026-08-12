@@ -133,14 +133,9 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
       </div>
 
       <div className="mt-4">
-        <div className="mb-1.5 flex items-baseline justify-between gap-3">
-          <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Alternativa
-          </label>
-          <label className="mr-10 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Quantità
-          </label>
-        </div>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Alternative
+        </p>
 
         {entry.alternatives.length > 0 && (
           <ul className="mb-2 space-y-2">
