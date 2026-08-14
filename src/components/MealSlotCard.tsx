@@ -119,7 +119,7 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
         ))}
 
         {entry.mains.length > 1 && (
-          <div className="rounded-lg border border-dashed border-border bg-card p-2">
+          <div className="rounded-md border border-border bg-card p-1">
             <Button
               type="button"
               variant="ghost"
