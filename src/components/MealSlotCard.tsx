@@ -108,7 +108,7 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
                 type="button"
                 variant="secondary"
                 size="icon"
-                className="h-11 w-11 shrink-0"
+                className="h-11 w-11 shrink-0 border border-border"
                 onClick={addMain}
               >
                 <Plus className="size-4" />
@@ -124,7 +124,7 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
             variant="ghost"
             size="sm"
             onClick={addMain}
-            className="text-muted-foreground"
+            className="border border-border text-muted-foreground"
           >
             <Plus className="mr-1 size-4" />
             Aggiungi piatto
@@ -181,7 +181,7 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
               }
             }}
             placeholder="Aggiungi un'alternativa…"
-            className="h-10 flex-1 bg-card text-sm"
+            className="h-10 flex-1 bg-surface text-sm"
           />
           <Input
             value={draftQty}
@@ -193,7 +193,7 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
               }
             }}
             placeholder="es. 200g"
-            className="h-10 w-28 bg-card text-sm"
+            className="h-10 w-28 bg-surface text-sm"
           />
           <Button type="button" variant="secondary" size="icon" className="h-10 w-10 shrink-0" onClick={addAlternative}>
             <Plus className="size-4" />
