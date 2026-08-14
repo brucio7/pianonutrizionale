@@ -119,13 +119,13 @@ export function MealSlotCard({ label, time, entry, onChange }: Props) {
         ))}
 
         {entry.mains.length > 1 && (
-          <div className="rounded-md border border-border bg-card p-1">
+          <div className="inline-flex rounded-md border border-border bg-card p-0.5">
             <Button
               type="button"
               variant="ghost"
               size="sm"
               onClick={addMain}
-              className="text-muted-foreground"
+              className="h-7 px-2 text-muted-foreground"
             >
               <Plus className="mr-1 size-4" />
               Aggiungi piatto
