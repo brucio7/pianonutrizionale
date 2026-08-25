@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Leaf, RotateCcw, Printer } from "lucide-react";
+import { FileDown, Leaf, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MealSlotCard } from "@/components/MealSlotCard";
+import { exportWeekPdf } from "@/lib/export-week-pdf";
 import {
   DAYS,
   MEAL_SLOTS,
@@ -40,6 +41,7 @@ function Index() {
   const [week, setWeek] = useState<WeekPlan>(() => emptyWeek());
   const [activeDay, setActiveDay] = useState<string>(DAYS[0]);
   const [hydrated, setHydrated] = useState(false);
+  const [pdfExporting, setPdfExporting] = useState(false);
 
   useEffect(() => {
     setWeek(loadWeek());
@@ -63,6 +65,15 @@ function Index() {
     setWeek((prev) => ({ ...prev, [activeDay]: emptyDay() }));
   };
 
+  const downloadPdf = async () => {
+    setPdfExporting(true);
+    try {
+      await exportWeekPdf(week);
+    } finally {
+      setPdfExporting(false);
+    }
+  };
+
   const planned = countPlanned(day);
 
   return (
@@ -81,11 +92,12 @@ function Index() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => window.print()}
+              onClick={downloadPdf}
+              disabled={pdfExporting}
               className="no-print"
             >
-              <Printer className="mr-2 size-4" />
-              Stampa PDF
+              <FileDown className="mr-2 size-4" />
+              {pdfExporting ? "Creo PDF…" : "Scarica PDF"}
             </Button>
             <div className="text-right">
               <p className="font-display text-3xl leading-none text-primary">
