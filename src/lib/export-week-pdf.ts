@@ -89,5 +89,35 @@ export async function exportWeekPdf(week: WeekPlan) {
     doc.text("Nessun pasto inserito.", margin, y);
   }
 
-  doc.save("piano-alimentare.pdf");
+  const fileName = "piano-alimentare.pdf";
+
+  try {
+    const { Capacitor } = await import("@capacitor/core");
+    if (Capacitor.isNativePlatform()) {
+      const [{ Directory, Filesystem }, { Share }] = await Promise.all([
+        import("@capacitor/filesystem"),
+        import("@capacitor/share"),
+      ]);
+      const pdfData = doc.output("datauristring").split(",")[1];
+      if (!pdfData) throw new Error("PDF non generato");
+
+      const saved = await Filesystem.writeFile({
+        path: fileName,
+        data: pdfData,
+        directory: Directory.Cache,
+      });
+
+      await Share.share({
+        title: "Piano Alimentare",
+        text: "PDF del piano alimentare settimanale",
+        url: saved.uri,
+        dialogTitle: "Salva o condividi il PDF",
+      });
+      return;
+    }
+  } catch (error) {
+    console.warn("Esportazione PDF nativa non disponibile, uso download browser.", error);
+  }
+
+  doc.save(fileName);
 }
