@@ -117,6 +117,10 @@ export async function exportWeekPdf(week: WeekPlan) {
     }
   } catch (error) {
     console.warn("Esportazione PDF nativa non disponibile, uso download browser.", error);
+    if ((window as unknown as { Capacitor?: unknown }).Capacitor) {
+      alert("Errore PDF: " + (error instanceof Error ? error.message : String(error)));
+      return;
+    }
   }
 
   const blob = doc.output("blob");
